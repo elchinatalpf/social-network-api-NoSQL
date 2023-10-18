@@ -9,7 +9,8 @@ router.route('/:userId').get('add here get single user')
 .put('update user by id')
 .delete('delete user by id');
 
-
+router.route('/:userId/friends/:friendId').post('postFriend here')
+.delete('deleteFriend here');
 
 module.exports = router;
 
