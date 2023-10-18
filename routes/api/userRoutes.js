@@ -28,3 +28,5 @@ module.exports = router;
 //   "username": "lernantino",
 //   "email": "lernantino@gmail.com"
 // }
+
+// DELETE to remove a friend from a user's friend list
