@@ -1,9 +1,8 @@
 const { Schema, model } = require('mongoose');
-
-// reactionSchema is here
+const reactionSchema = require('./Reaction');
 
 const thoughtsSchema = new Schema({
-  thoughText: {
+  thoughtText: {
     type: String,
     require: true,
     minLength: 1,
@@ -12,13 +11,22 @@ const thoughtsSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    // get format here 
+    get: (timestamp) => dateFormat(timestamp),
   },
   username: {
     type: String,
     require: true,
   },
   reactions: [
-// reactionSchema goes here.
-  ]
+    reactionSchema
+  ],
+  toJSON: {
+    virtuals: true,
+    getters: true,
+  },
+  id: false,
 });
+
+const Thought = model('Thought', thoughtsSchema);
+
+module.exports = Thought;
