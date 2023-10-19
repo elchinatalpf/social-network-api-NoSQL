@@ -6,24 +6,24 @@ const userSchema = new Schema({
   username: {
     type: String,
     unique: true,
-    require: true,
+    required: true,
     trim: true,
   },
   email: {
     type:String,
     unique: true,
-    require: true,
+    required: true,
     match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
   },
     thoughts: [
       {
-        type: Schema.type.ObjectId,
-        ref: 'thoughts',
+        type: Schema.Types.ObjectId,
+        ref: 'thought',
       },
     ],
     friends: [
       {
-        type: Schema.type.ObjectId,
+        type: Schema.Types.ObjectId,
       ref: 'user',
     },
     ],
@@ -40,4 +40,4 @@ userSchema.virtual('friendCount')
 
 const User = model('User', userSchema);
 
-model.exports = User;
+module.exports = User;

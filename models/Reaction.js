@@ -8,17 +8,16 @@ reactionSchema = new Schema({
   },
   reactionBody: {
     type: String,
-    require: true,
+    required: true,
     maxLength: 280,
   },
   username: {
     type: String,
-    require: true,
+    required: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
-    get: (timestamp) => dateFormat(timestamp),
+    default: Date.now,
   },
 });
 

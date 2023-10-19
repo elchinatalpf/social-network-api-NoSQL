@@ -4,18 +4,17 @@ const reactionSchema = require('./Reaction');
 const thoughtsSchema = new Schema({
   thoughtText: {
     type: String,
-    require: true,
+    required: true,
     minLength: 1,
     maxLength: 280,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (timestamp) => dateFormat(timestamp),
   },
   username: {
     type: String,
-    require: true,
+    required: true,
   },
   reactions: [
     reactionSchema
