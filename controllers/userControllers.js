@@ -3,8 +3,8 @@ const { User, Thought } = require('../models');
 module.exports = {
   async getUsers(req, res) {
     try {
-      const users = await User.find();
-      res.json(users);
+      const usersData = await User.find();
+      res.json(usersData);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -57,7 +57,7 @@ module.exports = {
 
   async deleteUser(req, res) {
     try {
-      const user = await User.findOneAndRemove({ _id: req.params.userid });
+      const user = await User.findOneAndDelete({ _id: req.params.userId });
 
       if (!user) {
         return res
@@ -76,7 +76,7 @@ module.exports = {
     try {
       const friend = await User.findOneAndUpdate(
         { _id: req.params.friendId },
-        { $addToSet: { responses: req.body } },
+        { $addToSet: { friends: req.body } },
         { runValidators: true, new: true },
       );
 
@@ -90,7 +90,23 @@ module.exports = {
     }
   },
 
-  
+  async removeFriend(req, res) {
+    try {
+      const friend = await User.findOneAndUpdate(
+        { _id: req.params.friendId },
+        { $pull: { friends: { friendId: req.params.friendId } } },
+        { runValidators: true, new: true }
+      );
+
+      if (!friend) {
+        return res.json(404).json({ message: 'No user found with this id' });
+      }
+
+      res.json(friend);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 
 };
 

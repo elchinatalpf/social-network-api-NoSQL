@@ -1,16 +1,24 @@
 const router = require('express').Router();
 
-// require here functions from controllers
+const {
+  getUsers,
+  getSingleUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  addNewFriend,
+  removeFriend
+} = require('../../controllers/userControllers');
 
-router.route('/').get('Add here function from controllers')
-.post('Add here function to post');
+router.route('/').get(getUsers)
+.post(createUser);
 
-router.route('/:userId').get('add here get single user')
-.put('update user by id')
-.delete('delete user by id');
+router.route('/:userId').get(getSingleUser)
+.put(updateUser)
+.delete(deleteUser);
 
-router.route('/:userId/friends/:friendId').post('postFriend here')
-.delete('deleteFriend here');
+router.route('/:userId/friends/:friendId').post(addNewFriend)
+.delete(removeFriend);
 
 module.exports = router;
 
