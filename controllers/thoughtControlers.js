@@ -13,13 +13,40 @@ module.exports = {
 
   async getSingleThough(req, res) {
     try {
-      const thoughData = await Thought.findOne({
-        _id: req.params.thoughId
-      })
+      const thoughData = await Thought.findOne({ _id: req.params.thoughId })
+      .select('__v');
+
+      if (!thoughData) {
+        return res.status(404).json({ message: 'No though found with that ID' });
+      }
+
+      res.json(thoughData);
     } catch (err) {
       res.status(500).json(err);
     }
-  }
+  },
+
+  async createNewThought(req, res) {
+    try {
+      const newThoughtData = await Thought.create(req.body);
+      const userData = await User.findOneAndUpdate(
+        { _id: req.body.userId },
+        { $push: { thoughts: newThoughtData._id } },
+        { new: true },
+      );
+
+      if (!userData) {
+        return res.status(404).json({ message: 'Though created but not user found with this ID' });
+      };
+
+      res.json({ message: 'Thought was created correctly' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
+    }
+  },
+
+
   
 
 };
