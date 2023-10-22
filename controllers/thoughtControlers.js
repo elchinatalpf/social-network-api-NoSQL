@@ -38,16 +38,13 @@ module.exports = {
   async createNewThought(req, res) {
     try {
       const newThought = await Thought.create(req.body);
-      console.log(newThought);
       const userData = await User.findOneAndUpdate(
         { _id: req.body.userId },
         { $push: { thoughts: newThought._id } },
         { new: true }
         );
-        console.log(userData);
 
         if (!userData) {
-          console.log(userData, 'line 50');
           return res.status(404).json({ message: 'Though created, but no user found with this ID' });
         }
 
@@ -141,7 +138,6 @@ module.exports = {
   },
 
 };
-
 // /api/thoughts
 // GET to get all thoughts
 // GET to get a single thought by its _id
@@ -153,7 +149,20 @@ module.exports = {
 // }
 // PUT to update a thought by its _id
 // DELETE to remove a thought by its _id
-
 // /api/thoughts/:thoughtId/reactions
 // POST to create a reaction stored in a single thought's reactions array field
 // DELETE to pull and remove a reaction by the reaction's reactionId value
+
+
+// For INSOMNIA
+// POST new Thought
+// {
+//   "thoughtText": "New stuff for Javier",
+//   "username": "javi",
+//   "userId": "<SELECT USER ID>"
+// }
+
+// PUT update Thought
+// {
+// 	"thoughtText": "<Enter text here>"
+// }
