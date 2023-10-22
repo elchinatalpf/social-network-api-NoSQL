@@ -24,6 +24,7 @@ module.exports = {
 
       res.json(userData);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -51,6 +52,7 @@ module.exports = {
 
       res.json(userData);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -68,6 +70,7 @@ module.exports = {
       await Thought.deleteMany({ _id: { $in: user.thoughts } });
       res.json({ message: "User and associated thoughts deleted" });
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -75,8 +78,8 @@ module.exports = {
   async addNewFriend(req, res) {
     try {
       const friend = await User.findOneAndUpdate(
-        { _id: req.params.friendId },
-        { $addToSet: { friends: req.body } },
+        { _id: req.params.userId },
+        { $addToSet: { friends: req.params.friendId } },
         { runValidators: true, new: true },
       );
 
@@ -86,6 +89,7 @@ module.exports = {
 
       res.json(friend);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -93,7 +97,7 @@ module.exports = {
   async removeFriend(req, res) {
     try {
       const friend = await User.findOneAndUpdate(
-        { _id: req.params.friendId },
+        { _id: req.params.userId },
         { $pull: { friends: { friendId: req.params.friendId } } },
         { runValidators: true, new: true }
       );
@@ -105,6 +109,7 @@ module.exports = {
       res.json(friend);
     } catch (err) {
       res.status(500).json(err);
+      console.error(err);
     }
   },
 

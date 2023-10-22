@@ -6,6 +6,7 @@ module.exports = {
       const thoughtsData = await Thought.find();
       res.json(thoughtsData);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -24,6 +25,7 @@ module.exports = {
 
       res.json(thoughtData);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -89,6 +91,7 @@ module.exports = {
 
       res.json(thoughtData);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -107,6 +110,7 @@ module.exports = {
 
       res.json(newReactionData);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -125,6 +129,7 @@ module.exports = {
 
       res.json(reactionData);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
