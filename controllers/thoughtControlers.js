@@ -4,6 +4,11 @@ module.exports = {
   async getAllThoughts(req, res) {
     try {
       const thoughtsData = await Thought.find();
+
+      if (!thoughtsData) {
+        return res.json(404).json({ message: 'Look like the thought array is empty' });
+      }
+
       res.json(thoughtsData);
     } catch (err) {
       console.error(err);
@@ -32,20 +37,21 @@ module.exports = {
 
   async createNewThought(req, res) {
     try {
-      const newThoughtData = await Thought.create(req.body);
+      const newThought = await Thought.create(req.body);
+      console.log(newThought);
       const userData = await User.findOneAndUpdate(
         { _id: req.body.userId },
-        { $push: { thoughts: newThoughtData._id } },
+        { $push: { thoughts: newThought._id } },
         { new: true }
-      );
+        );
+        console.log(userData);
 
-      if (!userData) {
-        return res
-          .status(404)
-          .json({ message: "Thought created but not user found with this ID" });
-      }
+        if (!userData) {
+          console.log(userData, 'line 50');
+          return res.status(404).json({ message: 'Though created, but no user found with this ID' });
+        }
 
-      res.json({ message: "Thought was created correctly" });
+        res.json({ message: 'Thought created' });
     } catch (err) {
       console.error(err);
       res.status(500).json(err);
@@ -136,18 +142,15 @@ module.exports = {
 
 };
 
-
 // /api/thoughts
 // GET to get all thoughts
 // GET to get a single thought by its _id
-// POST to create a new thought (don't forget to push the created
-// thought's _id to the associated user's thoughts array field)
+// POST to create a new thought (don't forget to push the created thought's _id to the associated user's thoughts array field)
 // {
 //   "thoughtText": "Here's a cool thought...",
 //   "username": "lernantino",
 //   "userId": "5edff358a0fcb779aa7b118b"
 // }
-
 // PUT to update a thought by its _id
 // DELETE to remove a thought by its _id
 

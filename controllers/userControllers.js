@@ -98,7 +98,7 @@ module.exports = {
     try {
       const friend = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { friends: { friendId: req.params.friendId } } },
+        { $pull: { friends: req.params.friendId } },
         { runValidators: true, new: true }
       );
 
@@ -108,8 +108,8 @@ module.exports = {
 
       res.json(friend);
     } catch (err) {
-      res.status(500).json(err);
       console.error(err);
+      res.status(500).json(err);
     }
   },
 
